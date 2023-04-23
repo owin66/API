@@ -16,14 +16,29 @@ class News extends Component {
 
   componentDidMount() {
     const { searchQuery } = this.state;
+    this.fetchData(searchQuery);
+  }
+
+  fetchData = searchQuery => {
     fetch(`${BASE_PATH}${SEARCH_PATH}?${SEARCH_PARAM}${searchQuery}`)
       .then(res => res.json())
       .then(result => this.setNews(result))
       .catch(error => error);
-  }
+  };
 
   setNews = result => {
     this.setState({ result });
+  };
+
+  handleInputChange = ({ target: { value } }) => {
+    this.setState({ searchQuery: value });
+  };
+
+  getSearch = ({ key }) => {
+    if (key === 'Enter') {
+      const { searchQuery } = this.state;
+      this.fetchData(searchQuery);
+    }
   };
 
   render() {
@@ -32,6 +47,11 @@ class News extends Component {
     return (
       <div className="wrapper">
         <Title title="Hacker News" />
+        <Input
+          onKeyPress={this.getSearch}
+          onChange={this.handleInputChange}
+          value={searchQuery}
+        />
         <ul className="newsList">
           {hits.map(
             ({
