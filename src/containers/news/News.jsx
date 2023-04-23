@@ -11,62 +11,27 @@ const SEARCH_PARAM = 'query=';
 class News extends Component {
   state = {
     searchQuery: '',
-    result: {}, //будем записывать данные
+    result: {},
   };
 
   componentDidMount() {
-    const { searchQuery } = this.state; //Вытягиваем значениe = ''
-    this.fetchData(searchQuery);
-    // fetch(`${BASE_PATH}${SEARCH_PATH}?${SEARCH_PARAM}${searchQuery}`) //страка запроса
-    //   .then(res => res.json()) // обработка ответа
-    //   .then(result => this.setNews(result)) //eсли ответ получен то передаем его в сетНьюс
-    //   .catch(error => error);
+    const { searchQuery } = this.state;
+    fetch(`${BASE_PATH}${SEARCH_PATH}?${SEARCH_PARAM}${searchQuery}`)
+      .then(res => res.json())
+      .then(result => this.setNews(result))
+      .catch(error => error);
   }
 
-  //1.  добавляем логику на запрос
-
-  fetchData = searchQuery => {
-    fetch(`${BASE_PATH}${SEARCH_PATH}?${SEARCH_PARAM}${searchQuery}`) //страка запроса
-      .then(res => res.json()) // обработка ответа
-      .then(result => this.setNews(result)) //eсли ответ получен то передаем его в сетНьюс
-      .catch(error => error);
-  };
-
-  //2.  добавляем поиск по инпуту который изменяет наш поисковой запрос
-  //вытягиваем значение вписанное в инпут и записываем в стейт
-  handleInputChange = ({ target: { value } }) => {
-    this.setState({
-      searchQuery: value,
-    });
-  };
-
-  getSearch = ({ key }) => {
-    // если нажат инпут то вытягиваем введенное значение из стейта и отправляем запрос
-    if (key === 'Enter') {
-      const { searchQuery } = this.state;
-      this.fetchData(searchQuery);
-    }
-  };
-
   setNews = result => {
-    this.setState({ result }); //добавляем в стейт
+    this.setState({ result });
   };
 
   render() {
     const { searchQuery, result } = this.state;
     const { hits = [] } = result;
-    //в result у нас объекты, мы делаем массив объектов и вытягиваем из него данные
-
-    console.log(result);
-
     return (
       <div className="wrapper">
         <Title title="Hacker News" />
-        <Input
-          onKeyPress={this.getSearch}
-          onChange={this.handleInputChange}
-          value={searchQuery}
-        />
         <ul className="newsList">
           {hits.map(
             ({
