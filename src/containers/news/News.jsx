@@ -26,11 +26,7 @@ class News extends Component {
       .catch(error => error);
   };
 
-  setNews = result => {
-    this.setState({ result });
-  };
-
-  handleInputChange = ({ target: { value } }) => {
+  handleChangeInput = ({ target: { value } }) => {
     this.setState({ searchQuery: value });
   };
 
@@ -41,18 +37,23 @@ class News extends Component {
     }
   };
 
+  setNews = result => {
+    this.setState({ result });
+  };
+
   render() {
     const { searchQuery, result } = this.state;
     const { hits = [] } = result;
+
     return (
       <div className="wrapper">
         <Title title="Hacker News" />
         <Input
           onKeyPress={this.getSearch}
-          onChange={this.handleInputChange}
+          onChange={this.handleChangeInput}
           value={searchQuery}
         />
-        <ul className="newsList">
+        <ul>
           {hits.map(
             ({
               author,
