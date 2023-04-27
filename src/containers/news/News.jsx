@@ -11,7 +11,7 @@ const SEARCH_PARAM = 'query=';
 class News extends Component {
   state = {
     searchQuery: '',
-    result: {}, //будем записывать данные
+    result: {}, //будем записывать данны
   };
 
   componentDidMount() {
