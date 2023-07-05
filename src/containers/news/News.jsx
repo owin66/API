@@ -13,7 +13,7 @@ class News extends Component {
     searchQuery: '',
     result: {},
   };
-//ssswws
+//ssswwss
   componentDidMount() {
     const { searchQuery } = this.state;
     this.fetchData(searchQuery);
